@@ -1,9 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ProfileCard } from './profile-card/profile-card';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [ FormsModule, ProfileCard],
+  standalone: true,
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

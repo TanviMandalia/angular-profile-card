@@ -1,0 +1,27 @@
+<p>profile-card works!</p>
+
+<div class="container">
+  <h2>Developer Profile Card</h2>
+
+  <div class="form-box">
+    <input type="text" placeholder="Name" [(ngModel)]="name">
+    <input type="text" placeholder="Role" [(ngModel)]="role">
+    <input type="email" placeholder="Email" [(ngModel)]="email">
+
+    <button *ngIf="editIndex === -1" (click)="addProfile()">Add</button>
+    <button *ngIf="editIndex !== -1" (click)="updateProfile()">Update</button>
+  </div>
+
+  <div class="card-container">
+    <div class="card" *ngFor="let p of profiles; let i = index">
+      <h3>{{p.name}}</h3>
+      <p>{{p.role}}</p>
+      <small>{{p.email}}</small>
+
+      <div class="actions">
+        <button (click)="editProfile(i)">Edit</button>
+        <button (click)="deleteProfile(i)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+.container {
+  width: 90%;
+  margin: auto;
+  text-align: center;
+  font-family: Arial;
+}
+
+h2 {
+  color: #333;
+}
+
+.form-box {
+  margin: 20px 0;
+}
+
+input {
+  margin: 5px;
+  padding: 10px;
+  width: 200px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+button {
+  margin: 5px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 15px;
+  width: 220px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.card h3 {
+  margin: 0;
+}
+
+.actions button {
+  background-color: #fff;
+  color: #333;
+  margin-top: 10px;
+}
+
+.actions button:hover {
+  background-color: #ddd;
+}
