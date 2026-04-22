@@ -1,60 +1,82 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-card',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './profile-card.html',
-  styleUrl: './profile-card.css',
+  styleUrls: ['./profile-card.css']
 })
 export class ProfileCard {
-   profiles: any[] = [];
+  users: any[] = [];
 
   name: string = '';
   role: string = '';
-  email: string = '';
+  bio: string = '';
+  avatarUrl: string | ArrayBuffer | null = null;
 
   editIndex: number = -1;
 
-  addProfile() {
-    if (this.name && this.role && this.email) {
-      this.profiles.push({
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        this.avatarUrl = reader.result;
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+
+  addUser() {
+    if (this.name && this.role && this.avatarUrl) {
+      this.users.push({
         name: this.name,
         role: this.role,
-        email: this.email
+        bio: this.bio,
+        avatarUrl: this.avatarUrl
       });
+
       this.clearForm();
     }
   }
 
-  editProfile(index: number) {
-    this.editIndex = index;
-    this.name = this.profiles[index].name;
-    this.role = this.profiles[index].role;
-    this.email = this.profiles[index].email;
+  editUser(i: number) {
+    const u = this.users[i];
+    this.editIndex = i;
+    this.name = u.name;
+    this.role = u.role;
+    this.bio = u.bio;
+    this.avatarUrl = u.avatarUrl;
   }
 
-  updateProfile() {
+  updateUser() {
     if (this.editIndex !== -1) {
-      this.profiles[this.editIndex] = {
+      this.users[this.editIndex] = {
         name: this.name,
         role: this.role,
-        email: this.email
+        bio: this.bio,
+        avatarUrl: this.avatarUrl
       };
+
       this.editIndex = -1;
       this.clearForm();
     }
   }
 
-  deleteProfile(index: number) {
-    this.profiles.splice(index, 1);
+  deleteUser(i: number) {
+    this.users.splice(i, 1);
   }
 
   clearForm() {
     this.name = '';
     this.role = '';
-    this.email = '';
+    this.bio = '';
+    this.avatarUrl = null;
   }
 }
-

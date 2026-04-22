@@ -1,27 +1,43 @@
-<p>profile-card works!</p>
-
 <div class="container">
-  <h2>Developer Profile Card</h2>
 
-  <div class="form-box">
+  <h2 class="title">Create Profile</h2>
+
+  <div class="form">
     <input type="text" placeholder="Name" [(ngModel)]="name">
     <input type="text" placeholder="Role" [(ngModel)]="role">
-    <input type="email" placeholder="Email" [(ngModel)]="email">
+    <input type="text" placeholder="Bio" [(ngModel)]="bio">
 
-    <button *ngIf="editIndex === -1" (click)="addProfile()">Add</button>
-    <button *ngIf="editIndex !== -1" (click)="updateProfile()">Update</button>
+    <label class="upload-box">
+      <span>Select Image</span>
+      <input type="file" accept="image/*" (change)="onFileChange($event)">
+    </label>
+
+    <div *ngIf="avatarUrl" class="preview">
+      <img [src]="avatarUrl">
+    </div>
+
+    <button *ngIf="editIndex === -1" (click)="addUser()" class="primary-btn">Add Profile</button>
+    <button *ngIf="editIndex !== -1" (click)="updateUser()" class="primary-btn">Update Profile</button>
   </div>
 
-  <div class="card-container">
-    <div class="card" *ngFor="let p of profiles; let i = index">
-      <h3>{{p.name}}</h3>
-      <p>{{p.role}}</p>
-      <small>{{p.email}}</small>
+  <div class="cards">
+    <div class="card" *ngFor="let u of users; let i = index">
 
-      <div class="actions">
-        <button (click)="editProfile(i)">Edit</button>
-        <button (click)="deleteProfile(i)">Delete</button>
+      <div class="image-box">
+        <img [src]="u.avatarUrl" class="avatar" />
       </div>
+
+      <div class="card-content">
+        <h3>{{ u.name }}</h3>
+        <p class="role">{{ u.role }}</p>
+        <p class="bio">{{ u.bio }}</p>
+
+        <div class="actions">
+          <button (click)="editUser(i)" class="edit">Edit</button>
+          <button (click)="deleteUser(i)" class="delete">Delete</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
