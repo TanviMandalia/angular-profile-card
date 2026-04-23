@@ -1,43 +1,85 @@
 <div class="container">
-
-  <h2 class="title">Create Profile</h2>
-
-  <div class="form">
-    <input type="text" placeholder="Name" [(ngModel)]="name">
-    <input type="text" placeholder="Role" [(ngModel)]="role">
-    <input type="text" placeholder="Bio" [(ngModel)]="bio">
-
-    <label class="upload-box">
-      <span>Select Image</span>
-      <input type="file" accept="image/*" (change)="onFileChange($event)">
-    </label>
-
-    <div *ngIf="avatarUrl" class="preview">
-      <img [src]="avatarUrl">
-    </div>
-
-    <button *ngIf="editIndex === -1" (click)="addUser()" class="primary-btn">Add Profile</button>
-    <button *ngIf="editIndex !== -1" (click)="updateUser()" class="primary-btn">Update Profile</button>
+  <div class="header">
+    <h1>Create <span>Profile</span></h1>
+    <p>Add your details and showcase yourself</p>
   </div>
 
-  <div class="cards">
-    <div class="card" *ngFor="let u of users; let i = index">
+  <form [formGroup]="form" (ngSubmit)="submit()" class="card">
+    <div class="grid">
 
-      <div class="image-box">
-        <img [src]="u.avatarUrl" class="avatar" />
+      <div class="field">
+        <label>Name</label>
+        <input type="text" formControlName="name" placeholder="Enter your name" />
+        @if (f.name.touched && f.name.invalid) {
+          <div class="error">Name is required</div>
+        }
       </div>
 
-      <div class="card-content">
+      <div class="field">
+        <label>Role</label>
+        <input type="text" formControlName="role" placeholder="Enter your role" />
+        @if (f.role.touched && f.role.invalid) {
+          <div class="error">Role is required</div>
+        }
+      </div>
+
+      <div class="field">
+        <label>Bio</label>
+        <textarea rows="4" formControlName="bio"></textarea>
+        @if (f.bio.touched && f.bio.invalid) {
+          <div class="error">Bio is required</div>
+        }
+      </div>
+
+      <div class="upload-section">
+        <label>Profile Image</label>
+
+        @if (!previewUrl()) {
+          <div class="upload-box" (click)="fileInput.click()">
+            <input type="file" (change)="onFileSelect($event)" hidden #fileInput />
+            <p>Click to upload image</p>
+            <button type="button" class="actions">Choose Image</button>
+          </div>
+        } @else {
+          <div class="preview-box">
+            <div class="image-circle">
+              <img [src]="previewUrl()" />
+            </div>
+
+            <div class="preview-actions">
+              <button type="button" (click)="removeImage()">Remove</button>
+              <button type="button" (click)="fileInput.click()">Change</button>
+              <input type="file" (change)="onFileSelect($event)" hidden #fileInput />
+            </div>
+
+            <div class="badge">Image Ready</div>
+          </div>
+        }
+      </div>
+
+    </div>
+
+    <button type="submit" class="submit-btn" [disabled]="form.invalid">
+      Add Profile
+    </button>
+  </form>
+
+  <div class="cards">
+    @for (u of users; track $index; let i = $index) {
+      <div class="user-card">
+        <div class="avatar-ring">
+          <img [src]="u.avatarUrl" />
+        </div>
+
         <h3>{{ u.name }}</h3>
         <p class="role">{{ u.role }}</p>
         <p class="bio">{{ u.bio }}</p>
 
         <div class="actions">
-          <button (click)="editUser(i)" class="edit">Edit</button>
-          <button (click)="deleteUser(i)" class="delete">Delete</button>
+          <button (click)="editUser(i)">Edit</button>
+          <button class="delete" (click)="deleteUser(i)">Delete</button>
         </div>
       </div>
-
-    </div>
+    }
   </div>
 </div>

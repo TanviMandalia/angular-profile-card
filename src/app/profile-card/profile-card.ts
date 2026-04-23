@@ -1,82 +1,92 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-card',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './profile-card.html',
   styleUrls: ['./profile-card.css']
 })
 export class ProfileCard {
+
+  previewUrl = signal<string | null>(null);
   users: any[] = [];
+  form: any;
 
-  name: string = '';
-  role: string = '';
-  bio: string = '';
-  avatarUrl: string | ArrayBuffer | null = null;
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      role: ['', Validators.required],
+      bio: ['', Validators.required],
+      image: [null]
+    });
+  }
 
-  editIndex: number = -1;
-
-  onFileChange(event: any) {
+  onFileSelect(event: any) {
     const file = event.target.files[0];
+    if (!file) return;
 
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        this.avatarUrl = reader.result;
-      };
-
-      reader.readAsDataURL(file);
+    if (!file.type.includes('image')) {
+      alert('Only image files allowed');
+      return;
     }
-  }
 
-  addUser() {
-    if (this.name && this.role && this.avatarUrl) {
-      this.users.push({
-        name: this.name,
-        role: this.role,
-        bio: this.bio,
-        avatarUrl: this.avatarUrl
-      });
-
-      this.clearForm();
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Max file size is 5MB');
+      return;
     }
+
+    this.form.patchValue({ image: file });
+
+    const reader = new FileReader();
+    reader.onload = () => this.previewUrl.set(reader.result as string);
+    reader.readAsDataURL(file);
   }
 
-  editUser(i: number) {
-    const u = this.users[i];
-    this.editIndex = i;
-    this.name = u.name;
-    this.role = u.role;
-    this.bio = u.bio;
-    this.avatarUrl = u.avatarUrl;
-  }
-
-  updateUser() {
-    if (this.editIndex !== -1) {
-      this.users[this.editIndex] = {
-        name: this.name,
-        role: this.role,
-        bio: this.bio,
-        avatarUrl: this.avatarUrl
-      };
-
-      this.editIndex = -1;
-      this.clearForm();
+  submit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
     }
+
+    const value = this.form.value;
+
+    this.users.push({
+      name: value.name,
+      role: value.role,
+      bio: value.bio,
+      avatarUrl: this.previewUrl()
+    });
+
+    this.form.reset();
+    this.previewUrl.set(null);
   }
 
-  deleteUser(i: number) {
-    this.users.splice(i, 1);
+  deleteUser(index: number) {
+    this.users.splice(index, 1);
   }
 
-  clearForm() {
-    this.name = '';
-    this.role = '';
-    this.bio = '';
-    this.avatarUrl = null;
+  editUser(index: number) {
+    const user = this.users[index];
+
+    this.form.patchValue({
+      name: user.name,
+      role: user.role,
+      bio: user.bio
+    });
+
+    this.previewUrl.set(user.avatarUrl);
+    this.users.splice(index, 1);
+  }
+
+  removeImage() {
+    this.form.patchValue({ image: null });
+    this.previewUrl.set(null);
+  }
+
+  get f() {
+    return this.form.controls;
   }
 }
