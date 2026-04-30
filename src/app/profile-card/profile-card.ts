@@ -20,7 +20,7 @@ export class ProfileCard {
       name: ['', Validators.required],
       role: ['', Validators.required],
       bio: ['', Validators.required],
-      image: [null]
+      image: ['', Validators.required]
     });
   }
 

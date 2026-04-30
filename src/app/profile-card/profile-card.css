@@ -1,36 +1,22 @@
 body {
-  margin: 0;
+  /* margin: 0; */
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #3a3d42, #1f2125);
   color: #f5f5f5;
 }
 
 .container {
-  margin: 10px;
-  padding: 25px;
+  /* margin: 10px;
+  padding: 25px; */
   background-color: #3a3d42;
-  min-height: 92vh;
+  min-height: 96vh;
   position: relative;
-}
-
-.container::after {
-  content: "";
-  position: absolute;
-  top: -120px;
-  right: -120px;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  border: 3px solid rgba(255, 193, 7, 0.2);
-  box-shadow:
-    0 0 0 20px rgba(255, 193, 7, 0.08),
-    0 0 0 40px rgba(255, 193, 7, 0.05);
 }
 
 .container::before {
   content: "";
   position: absolute;
-  top: 40px;
+  top: 20px;
   left: 20px;
   width: 100px;
   height: 100px;
@@ -42,7 +28,7 @@ body {
 .cards::after {
   content: "";
   position: absolute;
-  bottom: -20px;
+  bottom: -75px;
   right: 10px;
   width: 100px;
   height: 100px;
