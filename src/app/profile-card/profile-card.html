@@ -10,7 +10,7 @@
       <div class="field">
         <label>Name</label>
         <input type="text" formControlName="name" placeholder="Enter your name" />
-        @if (f.name.touched && f.name.invalid) {
+        @if (form.controls.name.touched && form.controls.name.invalid) {
           <div class="error">Name is required</div>
         }
       </div>
@@ -18,7 +18,7 @@
       <div class="field">
         <label>Role</label>
         <input type="text" formControlName="role" placeholder="Enter your role" />
-        @if (f.role.touched && f.role.invalid) {
+        @if (form.controls.role.touched && form.controls.role.invalid) {
           <div class="error">Role is required</div>
         }
       </div>
@@ -26,7 +26,7 @@
       <div class="field">
         <label>Bio</label>
         <textarea rows="4" formControlName="bio"></textarea>
-        @if (f.bio.touched && f.bio.invalid) {
+        @if (form.controls.bio.touched && form.controls.bio.invalid) {
           <div class="error">Bio is required</div>
         }
       </div>

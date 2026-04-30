@@ -85,8 +85,4 @@ export class ProfileCard {
     this.form.patchValue({ image: null });
     this.previewUrl.set(null);
   }
-
-  get f() {
-    return this.form.controls;
-  }
 }
