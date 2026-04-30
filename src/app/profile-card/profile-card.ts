@@ -74,7 +74,8 @@ export class ProfileCard {
     this.form.patchValue({
       name: user.name,
       role: user.role,
-      bio: user.bio
+      bio: user.bio,
+      image : user.avatarUrl
     });
 
     this.previewUrl.set(user.avatarUrl);
